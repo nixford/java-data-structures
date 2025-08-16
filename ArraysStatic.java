@@ -27,6 +27,7 @@
  *    - ArrayList	   .size() (method)	       list.size()
  *    - HashMap	        .size() (method)	    map.size()
  * 10. BOUNDS CHECKING: Java performs automatic bounds (limits) checking to prevent buffer overflows, in case of out-of-bounds: ArrayIndexOutOfBoundsException
+ * 11. NOT THREAD-SAFE: Static Arrays are NOT thread-safe by default. Multiple threads can access and modify the same array simultaneously, leading to race conditions and data corruption
  *
  *
  * PERFORMANCE: O(1) access time for reading/writing elements by index
@@ -80,6 +81,9 @@ public class ArraysStatic {
         
         // 11. ARRAY PITFALLS AND BEST PRACTICES
         demonstratePitfallsAndBestPractices();
+        
+        // 12. THREAD SAFETY AND ARRAYS
+        demonstrateThreadSafety();
     }
     
     /**
@@ -790,5 +794,246 @@ public class ArraysStatic {
             arr[minIdx] = arr[i];
             arr[i] = temp;
         }
+    }
+    
+    /**
+     * Demonstrates thread safety issues with arrays and solutions
+     */
+    private static void demonstrateThreadSafety() {
+        System.out.println("12. THREAD SAFETY AND ARRAYS");
+        System.out.println("============================");
+        
+        // Example 1: Race condition demonstration
+        // Demonstrates the issue: Two threads incrementing the same array element
+        // Shows lost updates: Expected 2000, but often gets less due to race conditions
+        System.out.println("Example 1 - Race Condition Problem:");
+        demonstrateRaceCondition();
+        
+        // Example 2: Thread-safe solutions
+        // Solution 1 - Synchronization: Using synchronized blocks with a lock object
+        // Solution 2 - AtomicIntegerArray: Using java.util.concurrent.atomic.AtomicIntegerArray
+        // Proves effectiveness: Both solutions consistently produce the expected result (2000)
+        System.out.println("\nExample 2 - Thread-Safe Solutions:");
+        demonstrateThreadSafeSolutions();
+        
+        // Example 3: Local arrays (thread-safe)
+        // Demonstrates: Each thread gets its own local array copy
+        // Shows safety: No conflicts because arrays are on separate thread stacks
+        // Output: Each thread safely increments to 1000
+        System.out.println("\nExample 3 - Local Arrays (Thread-Safe):");
+        demonstrateLocalArrays();
+        
+        // Example 4: Read-only arrays (thread-safe)
+        // Multiple readers: 3 threads reading from the same READ_ONLY_ARRAY
+        // Safe concurrent access: Reading doesn't modify data
+        // Consistent results: All threads get the same sum (150)
+        System.out.println("\nExample 4 - Read-Only Arrays (Thread-Safe):");
+        demonstrateReadOnlyArrays();
+        
+        System.out.println();
+    }
+    
+    // Shared array for race condition demonstration
+    private static int[] sharedArray = new int[5];
+    private static final Object lock = new Object();
+    
+    /**
+     * Demonstrates race condition with unsynchronized array access
+     */
+    private static void demonstrateRaceCondition() {
+        System.out.println("Creating race condition with 2 threads modifying same array...");
+        
+        // Reset array
+        java.util.Arrays.fill(sharedArray, 0);
+        
+        // Create two threads that increment the same array elements
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                sharedArray[0]++; // NOT thread-safe!
+            }
+        }, "Thread-1");
+        
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                sharedArray[0]++; // NOT thread-safe!
+            }
+        }, "Thread-2");
+        
+        try {
+            thread1.start();
+            thread2.start();
+            
+            thread1.join(); // Wait for completion
+            thread2.join();
+            
+            System.out.println("Expected result: 2000 (1000 + 1000)");
+            System.out.println("Actual result: " + sharedArray[0]);
+            
+            if (sharedArray[0] != 2000) {
+                System.out.println("❌ RACE CONDITION DETECTED! Lost updates due to concurrent access.");
+            } else {
+                System.out.println("✅ No race condition this time (but it's still not guaranteed!)");
+            }
+            
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Thread interrupted: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Demonstrates thread-safe solutions
+     */
+    private static void demonstrateThreadSafeSolutions() {
+        System.out.println("Solution 1 - Synchronized Access:");
+        
+        // Reset array
+        java.util.Arrays.fill(sharedArray, 0);
+        
+        Thread syncThread1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                synchronized(lock) {
+                    sharedArray[1]++; // Thread-safe with synchronization
+                }
+            }
+        }, "SyncThread-1");
+        
+        Thread syncThread2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                synchronized(lock) {
+                    sharedArray[1]++; // Thread-safe with synchronization
+                }
+            }
+        }, "SyncThread-2");
+        
+        try {
+            syncThread1.start();
+            syncThread2.start();
+            
+            syncThread1.join();
+            syncThread2.join();
+            
+            System.out.println("Expected result with synchronization: 2000");
+            System.out.println("Actual result with synchronization: " + sharedArray[1]);
+            System.out.println("✅ Synchronization prevents race conditions!");
+            
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Thread interrupted: " + e.getMessage());
+        }
+        
+        // Solution 2: AtomicIntegerArray
+        System.out.println("\nSolution 2 - AtomicIntegerArray:");
+        java.util.concurrent.atomic.AtomicIntegerArray atomicArray = 
+            new java.util.concurrent.atomic.AtomicIntegerArray(5);
+        
+        Thread atomicThread1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                atomicArray.incrementAndGet(0); // Thread-safe atomic operation
+            }
+        }, "AtomicThread-1");
+        
+        Thread atomicThread2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                atomicArray.incrementAndGet(0); // Thread-safe atomic operation
+            }
+        }, "AtomicThread-2");
+        
+        try {
+            atomicThread1.start();
+            atomicThread2.start();
+            
+            atomicThread1.join();
+            atomicThread2.join();
+            
+            System.out.println("Expected result with AtomicIntegerArray: 2000");
+            System.out.println("Actual result with AtomicIntegerArray: " + atomicArray.get(0));
+            System.out.println("✅ AtomicIntegerArray provides thread-safe operations!");
+            
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Thread interrupted: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Demonstrates that local arrays are thread-safe
+     */
+    private static void demonstrateLocalArrays() {
+        System.out.println("Local arrays are thread-safe (each thread has its own copy):");
+        
+        Runnable localArrayTask = () -> {
+            int[] localArray = {0, 0, 0}; // Each thread gets its own array
+            
+            for (int i = 0; i < 1000; i++) {
+                localArray[0]++; // Thread-safe because it's local
+            }
+            
+            System.out.println(Thread.currentThread().getName() + 
+                             " - Local array result: " + localArray[0]);
+        };
+        
+        Thread localThread1 = new Thread(localArrayTask, "LocalThread-1");
+        Thread localThread2 = new Thread(localArrayTask, "LocalThread-2");
+        
+        try {
+            localThread1.start();
+            localThread2.start();
+            
+            localThread1.join();
+            localThread2.join();
+            
+            System.out.println("✅ Each thread operates on its own local array - no conflicts!");
+            
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Thread interrupted: " + e.getMessage());
+        }
+    }
+    
+    // Read-only array (thread-safe)
+    private static final int[] READ_ONLY_ARRAY = {10, 20, 30, 40, 50};
+    
+    /**
+     * Demonstrates that read-only arrays are thread-safe
+     */
+    private static void demonstrateReadOnlyArrays() {
+        System.out.println("Read-only arrays are thread-safe:");
+        
+        Runnable readOnlyTask = () -> {
+            int sum = 0;
+            for (int value : READ_ONLY_ARRAY) {
+                sum += value; // Only reading - thread-safe
+            }
+            System.out.println(Thread.currentThread().getName() + 
+                             " - Sum of read-only array: " + sum);
+        };
+        
+        Thread readThread1 = new Thread(readOnlyTask, "ReadThread-1");
+        Thread readThread2 = new Thread(readOnlyTask, "ReadThread-2");
+        Thread readThread3 = new Thread(readOnlyTask, "ReadThread-3");
+        
+        try {
+            readThread1.start();
+            readThread2.start();
+            readThread3.start();
+            
+            readThread1.join();
+            readThread2.join();
+            readThread3.join();
+            
+            System.out.println("✅ Multiple threads can safely read from the same array!");
+            
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Thread interrupted: " + e.getMessage());
+        }
+        
+        System.out.println("\n=== THREAD SAFETY SUMMARY ===");
+        System.out.println("❌ Shared mutable arrays: NOT thread-safe");
+        System.out.println("✅ Local arrays: Thread-safe (each thread has own copy)");
+        System.out.println("✅ Read-only arrays: Thread-safe (no modifications)");
+        System.out.println("✅ Synchronized access: Thread-safe (with performance cost)");
+        System.out.println("✅ AtomicIntegerArray: Thread-safe (atomic operations)");
     }
 }
