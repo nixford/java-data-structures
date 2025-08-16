@@ -2,24 +2,29 @@
 /**
  * ArraysStatic.java - Comprehensive Tutorial for Static Arrays in Java
  * 
- * STATIC ARRAYS - KEY FEATURES AND CHARACTERISTICS:
- * 
- * 1. FIXED SIZE: Arrays have a predetermined size that cannot be changed after creation
- * 2. HOMOGENEOUS: All elements must be of the same data type
- * 3. INDEXED ACCESS: Elements are accessed using zero-based indexing (0 to length-1)
- * 4. CONTIGUOUS MEMORY: Elements are stored in consecutive memory locations
- * 5. REFERENCE TYPE: Arrays are objects in Java, stored in heap memory
- * 6. DEFAULT VALUES: Elements are automatically initialized with default values
+ * I. STATIC ARRAYS - KEY FEATURES AND CHARACTERISTICS:
+ *
+ * 1. LINEAR DATA STRUCTURE: Static Arrays are linear data structures - each element is stored in sequential manner
+ * 2. ONE DIMENSIONAL: Static Arrays have a single dimension (linear data structure)
+ * 3. FIXED SIZE: Arrays have a predetermined size that cannot be changed after creation
+ * 4. HOMOGENEOUS: All elements must be of the same data type
+ * 5. INDEXED ACCESS: Elements are accessed using zero-based indexing (0 to length-1)
+ * 6. CONTIGUOUS MEMORY: Elements are stored in consecutive memory locations, example:
+ *    Memory Address:  1000  1004  1008  1012  1016
+ *    Array Element:   [10]  [20]  [30]  [40]  [50]
+ *    Array Index:      0     1     2     3     4
+ * 7. REFERENCE TYPE: Arrays are objects in Java, stored in heap memory
+ * 8. DEFAULT VALUES: Elements are automatically initialized with default values
  *    - Numeric types: 0 (int, double, etc.)
  *    - Boolean: false
  *    - Object references: null
- * 7. LENGTH PROPERTY: Arrays have a built-in 'length' property (not method)
- * 8. BOUNDS CHECKING: Java performs automatic bounds checking to prevent buffer overflows
- * 9. MULTI-DIMENSIONAL: Support for arrays of arrays (2D, 3D, etc.)
- * 10. PERFORMANCE: O(1) access time for reading/writing elements by index
+ * 9. LENGTH PROPERTY: Arrays have a built-in 'length' property (not method)
+ * 10. BOUNDS CHECKING: Java performs automatic bounds checking to prevent buffer overflows
+ *
+ * II. PERFORMANCE: O(1) access time for reading/writing elements by index
  * 
- * ADVANTAGES:
- * - Fast random access to elements
+ *  ADVANTAGES:
+ * - Fast random access to elements, which makes them good for searching operations
  * - Memory efficient for fixed-size collections
  * - Simple and straightforward to use
  * - Cache-friendly due to contiguous memory layout
