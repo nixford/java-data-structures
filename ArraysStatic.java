@@ -30,7 +30,13 @@
  * 11. NOT THREAD-SAFE: Static Arrays are NOT thread-safe by default. Multiple threads can access and modify the same array simultaneously, leading to race conditions and data corruption
  *
  *
- * PERFORMANCE: O(1) access time for reading/writing elements by index
+ * PERFORMANCE: Time Complexity and Memory (Space) Complexity of Static Arrays:
+ * Operation	            Time Complexity	            Memory Complexity	            Notes
+ * - Access	                      O(1)	                       O(1)	           Direct index access via arr[i]
+ * - Search	                      O(n)	                       O(1)	           Linear search through all elements
+ * - Insertion	                  N/A	                       N/A	           Static arrays have fixed size
+ * - Appending	                  N/A	                       N/A	           Static arrays have fixed size
+ * - Deletion	                  N/A	                       N/A	           Static arrays have fixed size
  * 
  * ADVANTAGES:
  * - Fast random access to elements, which makes them good for searching operations
