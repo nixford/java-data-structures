@@ -2,7 +2,7 @@
 /**
  * ArraysStatic.java - Comprehensive Tutorial for Static Arrays in Java
  * 
- * I. STATIC ARRAYS - KEY FEATURES AND CHARACTERISTICS:
+ * STATIC ARRAYS - KEY FEATURES AND CHARACTERISTICS:
  *
  * 1. LINEAR DATA STRUCTURE: Static Arrays are linear data structures - each element is stored in sequential manner
  * 2. ONE DIMENSIONAL: Static Arrays have a single dimension (linear data structure)
@@ -21,9 +21,9 @@
  * 9. LENGTH PROPERTY: Arrays have a built-in 'length' property (not method)
  * 10. BOUNDS CHECKING: Java performs automatic bounds checking to prevent buffer overflows
  *
- * II. PERFORMANCE: O(1) access time for reading/writing elements by index
+ * PERFORMANCE: O(1) access time for reading/writing elements by index
  * 
- *  ADVANTAGES:
+ * ADVANTAGES:
  * - Fast random access to elements, which makes them good for searching operations
  * - Memory efficient for fixed-size collections
  * - Simple and straightforward to use
