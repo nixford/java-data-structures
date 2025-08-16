@@ -10,9 +10,11 @@
  * 4. HOMOGENEOUS: All elements must be of the same data type
  * 5. INDEXED ACCESS: Elements are accessed using zero-based indexing (0 to length-1)
  * 6. CONTIGUOUS MEMORY: Elements are stored in consecutive memory locations, example:
- *    Memory Address:  1000  1004  1008  1012  1016
- *    Array Element:   [10]  [20]  [30]  [40]  [50]
- *    Array Index:      0     1     2     3     4
+ *    - Memory Address:  1000  1004  1008  1012  1016
+ *    - Array Element:   [10]  [20]  [30]  [40]  [50]
+ *    - Array Index:      0     1     2     3     4
+ *    - No extra pointers between elements, which needs to be followed (like pointers in linked lists), which leads to minimal memory overhead
+ *    - Cache Performance: When you access arr[0], the CPU loads nearby elements into cache and accessing arr[1], arr[2] next is very fast (cache hits)
  * 7. REFERENCE TYPE: Arrays are objects in Java, stored in heap memory
  * 8. DEFAULT VALUES: Elements are automatically initialized with default values
  *    - Numeric types: 0 (int, double, etc.)
