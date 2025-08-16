@@ -20,8 +20,14 @@
  *    - Numeric types: 0 (int, double, etc.)
  *    - Boolean: false
  *    - Object references: null
- * 9. LENGTH PROPERTY: Arrays have a built-in 'length' property (not method)
- * 10. BOUNDS CHECKING: Java performs automatic bounds checking to prevent buffer overflows
+ * 9. LENGTH PROPERTY: Arrays have a built-in 'length' property (not method: numbers.length;  // ← NO parentheses! It's a field). Different from String, ArrayList:
+ *    Type	              Size Access	        Example
+ *    - Array	       .length (field)	       arr.length
+ *    - String	       .length() (method)	   str.length()
+ *    - ArrayList	   .size() (method)	       list.size()
+ *    - HashMap	        .size() (method)	    map.size()
+ * 10. BOUNDS CHECKING: Java performs automatic bounds (limits) checking to prevent buffer overflows, in case of out-of-bounds: ArrayIndexOutOfBoundsException
+ *
  *
  * PERFORMANCE: O(1) access time for reading/writing elements by index
  * 
