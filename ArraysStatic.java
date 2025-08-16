@@ -5,7 +5,7 @@
  * STATIC ARRAYS - KEY FEATURES AND CHARACTERISTICS:
  *
  * 1. LINEAR DATA STRUCTURE: Static Arrays are linear data structures - each element is stored in sequential manner
- * 2. ONE DIMENSIONAL: Static Arrays have a single dimension (linear data structure)
+ * 2. ONE DIMENSIONAL or MULTI-DIMENSIONAL: Arrays may have a single dimension or multiple dimensions (2D, 3D, etc.)
  * 3. FIXED SIZE: Arrays have a predetermined size that cannot be changed after creation
  * 4. HOMOGENEOUS: All elements must be of the same data type
  * 5. INDEXED ACCESS: Elements are accessed using zero-based indexing (0 to length-1)
