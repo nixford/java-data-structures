@@ -7,16 +7,27 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * DYNAMIC ARRAYS (ArrayList) - KEY FEATURES AND CHARACTERISTICS:
  *
  * 1. LINEAR DATA STRUCTURE: Dynamic Arrays are linear data structures - each element is stored in sequential manner
- * 2. RESIZABLE: Can grow and shrink during runtime
- * 3. GENERIC: Type-safe with generics (ArrayList<T>)
- * 4. INDEXED ACCESS: Zero-based indexing like static arrays
- * 5. AUTOMATIC MEMORY MANAGEMENT: Handles resizing internally
- * 6. RICH API: Many built-in methods for manipulation
- * 7. THREAD-UNSAFE: Not synchronized by default
- * 8. ALLOWS DUPLICATES: Can store duplicate elements
- * 9. MAINTAINS INSERTION ORDER: Elements stay in the order they were added
- * 10. RANDOM ACCESS: Implements RandomAccess interface for fast indexed access
- * 11. DYNAMIC CAPACITY: Grows by ~50% when capacity is exceeded
+ * 2. ONE DIMENSIONAL or MULTI-DIMENSIONAL: Dynamic Arrays may have a single dimension or multiple dimensions (2D, 3D, etc.)
+ * 3. RESIZABLE: Can grow and shrink during runtime
+ * 4. GENERIC: Type-safe with generics (ArrayList<T>)
+ * 5. INDEXED ACCESS: Zero-based indexing like static arrays
+ * 6. AUTOMATIC MEMORY MANAGEMENT: Handles resizing internally:
+ *    6.1 ArrayList starts with a default capacity (usually 10 elements)
+ *    6.2 When more elements are added than the current capacity, ArrayList automatically:
+ *        - Creates a new, larger internal array (typically 1.5x the current size)
+ *        - Copies all existing elements to the new array
+ *        - Discards the old array (garbage collected) *
+ * 7. REFERENCE TYPE: Arrays are objects in Java, stored in heap memory
+ * 8. DEFAULT VALUES:
+ *    8.1 ArrayList variable itself defaults to null if not initialized
+ *    8.2 Elements have type-specific defaults (null for objects, 0 for Integer, false for Boolean)
+ *    8.3 Empty ArrayList has size 0 but capacity 10 (default)
+ * 9. RICH API: Many built-in methods for manipulation
+ * 10. THREAD-UNSAFE: Not synchronized by default
+ * 11. ALLOWS DUPLICATES: Can store duplicate elements
+ * 12. MAINTAINS INSERTION ORDER: Elements stay in the order they were added
+ * 13. RANDOM ACCESS: Implements RandomAccess interface for fast indexed access
+ * 14. DYNAMIC CAPACITY: Grows by ~50% when capacity is exceeded
  *
  * INTERNAL IMPLEMENTATION:
  * - Backed by a regular array (Object[])
