@@ -4,7 +4,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * DynamicArrays.java - Comprehensive Tutorial for Dynamic Arrays in Java
  * 
- * DYNAMIC ARRAYS (ArrayList) - KEY FEATURES AND CHARACTERISTICS:
+ * DYNAMIC ARRAYS (most common implementation in Java: {@link java.util.ArrayList}) - KEY FEATURES AND CHARACTERISTICS:
  *
  * 1. LINEAR DATA STRUCTURE: Dynamic Arrays are linear data structures - each element is stored in sequential manner
  * 2. ONE DIMENSIONAL or MULTI-DIMENSIONAL: Dynamic Arrays may have a single dimension or multiple dimensions (2D, 3D, etc.)
@@ -75,6 +75,9 @@ public class ArraysDynamic {
         
         // 9. BEST PRACTICES AND PITFALLS
         demonstrateBestPractices();
+        
+        // 10. OTHER JAVA IMPLEMENTATIONS
+        demonstrateOtherJavaImplementations();
     }
     
     /**
@@ -542,5 +545,97 @@ public class ArraysDynamic {
         System.out.println("❌ Need constant-time insertions/deletions (use LinkedList)");
         
         System.out.println("\n=== END OF DYNAMIC ARRAYS TUTORIAL ===");
+    }
+
+    /**
+     * Demonstrates other Java implementations of dynamic arrays
+     */
+    private static void demonstrateOtherJavaImplementations() {
+        System.out.println("10. OTHER JAVA IMPLEMENTATIONS OF DYNAMIC ARRAYS");
+        System.out.println("================================================");
+
+        System.out.println("=== 1. VECTOR (Legacy, Thread-Safe) ===");
+        Vector<String> vector = new Vector<>();
+        vector.add("Vector1");
+        vector.add("Vector2");
+        System.out.println("Vector: " + vector);
+        System.out.println("✅ Thread-safe, ❌ Performance overhead, Growth: 2x");
+
+        System.out.println("\n=== 2. LINKEDLIST (Doubly-Linked) ===");
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("Node1");
+        linkedList.add("Node2");
+        linkedList.addFirst("FirstNode");
+        linkedList.addLast("LastNode");
+        System.out.println("LinkedList: " + linkedList);
+        System.out.println("✅ Fast insertions/deletions, ❌ Slow random access");
+
+        System.out.println("\n=== 3. COPYONWRITEARRAYLIST (Thread-Safe, Read-Optimized) ===");
+        CopyOnWriteArrayList<String> cowList = new CopyOnWriteArrayList<>();
+        cowList.add("COW1");
+        cowList.add("COW2");
+        System.out.println("CopyOnWriteArrayList: " + cowList);
+        System.out.println("✅ Thread-safe reads, ❌ Expensive writes (copies entire array)");
+
+        System.out.println("\n=== 4. STACK (Legacy LIFO) ===");
+        Stack<String> stack = new Stack<>();
+        stack.push("Bottom");
+        stack.push("Middle");
+        stack.push("Top");
+        System.out.println("Stack: " + stack);
+        System.out.println("Top element: " + stack.peek());
+        System.out.println("✅ LIFO operations, ❌ Legacy (extends Vector)");
+
+        System.out.println("\n=== PERFORMANCE COMPARISON ===");
+        int size = 10000;
+
+        // ArrayList performance
+        long start = System.nanoTime();
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            arrayList.add(i);
+        }
+        long arrayListTime = System.nanoTime() - start;
+
+        // Vector performance
+        start = System.nanoTime();
+        Vector<Integer> vectorTest = new Vector<>();
+        for (int i = 0; i < size; i++) {
+            vectorTest.add(i);
+        }
+        long vectorTime = System.nanoTime() - start;
+
+        // LinkedList performance
+        start = System.nanoTime();
+        LinkedList<Integer> linkedListTest = new LinkedList<>();
+        for (int i = 0; i < size; i++) {
+            linkedListTest.add(i);
+        }
+        long linkedListTime = System.nanoTime() - start;
+
+        System.out.println("Adding " + size + " elements:");
+        System.out.println("ArrayList: " + (arrayListTime / 1_000_000.0) + " ms");
+        System.out.println("Vector: " + (vectorTime / 1_000_000.0) + " ms (slower due to synchronization)");
+        System.out.println("LinkedList: " + (linkedListTime / 1_000_000.0) + " ms");
+
+        System.out.println("\n=== WHEN TO USE EACH IMPLEMENTATION ===");
+        System.out.println("ArrayList: ✅ General purpose, single-threaded");
+        System.out.println("Vector: ❌ Avoid (use Collections.synchronizedList instead)");
+        System.out.println("LinkedList: ✅ Frequent insertions/deletions in middle");
+        System.out.println("CopyOnWriteArrayList: ✅ Thread-safe, read-heavy scenarios");
+        System.out.println("Stack: ❌ Avoid (use ArrayDeque for LIFO operations)");
+
+        System.out.println("\n=== MODERN ALTERNATIVES ===");
+        // Thread-safe ArrayList alternative
+        List<String> syncList = Collections.synchronizedList(new ArrayList<>());
+        System.out.println("✅ Collections.synchronizedList(new ArrayList<>()) - Better than Vector");
+
+        // Modern stack alternative
+        ArrayDeque<String> deque = new ArrayDeque<>();
+        deque.push("Modern");
+        deque.push("Stack");
+        System.out.println("✅ ArrayDeque for stack operations - Better than Stack class");
+
+        System.out.println();
     }
 }
